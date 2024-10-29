@@ -239,6 +239,29 @@ class CalculoDV
         return Util::modulo11(Util::numberFormatGeral($nossoNumero, 10));
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | 084 - Sisprime
+    |--------------------------------------------------------------------------
+    */
+    public static function sisprimeAgencia($agencia)
+    {
+        $dv = Util::modulo11($agencia);
+
+        return $dv == 11 ? 0 : $dv;
+    }
+
+    public static function sisprimeContaCorrente($conta)
+    {
+        return Util::modulo11($conta);
+    }
+
+    public static function sisprimeNossoNumero($nossoNumero)
+    {
+        return Util::modulo11($nossoNumero, 2, 7);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | 208 - BTG

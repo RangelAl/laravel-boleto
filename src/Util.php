@@ -151,6 +151,7 @@ final class Util
         '230' => 'Unicard Banco Múltiplo S.A.',
         '712' => 'Banco Ourinvest',
         '085' => 'AILOS - Sistema de Cooperativa de Crédito',
+        '084' => 'Sisprime do Brasil',
         'XXX' => 'Desconhecido',
     ];
 
