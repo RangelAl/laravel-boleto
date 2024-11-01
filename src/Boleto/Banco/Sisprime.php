@@ -124,7 +124,17 @@ class Sisprime extends AbstractBoleto implements BoletoContract
     protected function gerarNossoNumero()
     {
         $numero = Util::numberFormatGeral($this->getNumero(), 11);
-        return $numero . CalculoDV::sisprimeNossoNumero($this->getCarteira().$numero);
+        $dv = CalculoDV::sisprimeNossoNumero($this->getCarteira().$numero);
+        
+        if($dv == 1){
+            $dv = 'P';
+        }else if($dv == 0){
+            $dv = 0;
+        }else{
+            $dv = 11 - $dv;
+        }
+        $result = $numero . $dv;
+        return $result;
     }
 
 
@@ -296,9 +306,6 @@ class Sisprime extends AbstractBoleto implements BoletoContract
         $resto = Util::modulo11($codigo, 2, 9, 1);
         
         $resto = 11 - $resto;
-
-        //0849984900000014750019000000000010000897523
-        //08497984900000014750019000000000010000897523
         
         if($resto == 0 || $resto == 1 || $resto > 9){
             $dv = 1;    
@@ -307,7 +314,6 @@ class Sisprime extends AbstractBoleto implements BoletoContract
         }
         
         $this->campoCodigoBarras = substr($codigo, 0, 4) . $dv . substr($codigo, 4);
-        //dd($this->campoCodigoBarras, $resto, $dv, $this->getLinhaDigitavel());
         return $this->campoCodigoBarras;
     }
 

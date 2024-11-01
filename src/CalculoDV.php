@@ -259,7 +259,7 @@ class CalculoDV
 
     public static function sisprimeNossoNumero($nossoNumero)
     {
-        return Util::modulo11($nossoNumero, 2, 7);
+        return Util::modulo11($nossoNumero, 2, 7, 1);
     }
 
     /*
