@@ -124,17 +124,7 @@ class Sisprime extends AbstractBoleto implements BoletoContract
     protected function gerarNossoNumero()
     {
         $numero = Util::numberFormatGeral($this->getNumero(), 11);
-        $dv = CalculoDV::sisprimeNossoNumero($this->getCarteira().$numero);
-        
-        if($dv == 1){
-            $dv = 'P';
-        }else if($dv == 0){
-            $dv = 0;
-        }else{
-            $dv = 11 - $dv;
-        }
-        $result = $numero . $dv;
-        return $result;
+        return $numero . CalculoDV::sisprimeNossoNumero($this->getCarteira().$numero);
     }
 
 
