@@ -45,7 +45,7 @@ abstract class AbstractAPI implements Api
 
     protected $beneficiario;
 
-    private $curl = null;
+    private $curl;
 
     private $responseHttpCode = null;
 
@@ -368,6 +368,7 @@ abstract class AbstractAPI implements Api
     public function setBeneficiario($beneficiario)
     {
         Util::addPessoa($this->beneficiario, $beneficiario);
+        $this->beneficiario->setTipo(Pessoa::TIPO_BENEFICIARIO);
 
         return $this;
     }
@@ -464,7 +465,7 @@ abstract class AbstractAPI implements Api
      * @throws UnauthorizedException
      * @throws CurlException
      */
-    protected function post($url, array $post, $raw = false, $clear=true)
+    protected function post($url, array $post, $raw = false, $clear = true)
     {
         $url = ltrim($url, '/');
         $this->init()
@@ -474,7 +475,7 @@ abstract class AbstractAPI implements Api
             ]));
 
         // clean string
-        if($clear) {
+        if ($clear) {
             $post = $this->arrayMapRecursive(function ($data) {
                 return Util::normalizeChars($data);
             }, $post);
@@ -595,7 +596,7 @@ abstract class AbstractAPI implements Api
     {
         $compiledHeader = [];
         foreach ($headers as $param => $value) {
-            if (is_integer($param) && preg_match('/([\w-]+): ?(.*)/g', $value)) {
+            if (is_integer($param) && preg_match('/([\w-]+): ?(.*)/', $value)) {
                 $compiledHeader[] = $value;
             } else {
                 $compiledHeader[] = "$param: $value";

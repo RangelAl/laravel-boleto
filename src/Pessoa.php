@@ -7,6 +7,15 @@ use Eduardokum\LaravelBoleto\Contracts\Pessoa as PessoaContract;
 
 class Pessoa implements PessoaContract
 {
+    const TIPO_PAGADOR = 'pagador';
+    const TIPO_BENEFICIARIO = 'beneficiario';
+    const TIPO_SACADOR = 'sacadorAvalista';
+
+    /**
+     * @var string
+     */
+    protected $tipo;
+
     /**
      * @var string
      */
@@ -72,15 +81,15 @@ class Pessoa implements PessoaContract
     public static function create($nome, $documento, $endereco = null, $bairro = null, $cep = null, $cidade = null, $uf = null, $email = null, $nomeFantasia = null)
     {
         return new static([
-            'nome'      => $nome,
-            'nomeFantasia'  => $nomeFantasia,
-            'endereco'  => $endereco,
-            'bairro'    => $bairro,
-            'cep'       => $cep,
-            'uf'        => $uf,
-            'cidade'    => $cidade,
-            'documento' => $documento,
-            'email'     => $email,
+            'nome'         => $nome,
+            'nomeFantasia' => $nomeFantasia,
+            'endereco'     => $endereco,
+            'bairro'       => $bairro,
+            'cep'          => $cep,
+            'uf'           => $uf,
+            'cidade'       => $cidade,
+            'documento'    => $documento,
+            'email'        => $email,
         ]);
     }
 
@@ -92,6 +101,39 @@ class Pessoa implements PessoaContract
     public function __construct($params = [])
     {
         Util::fillClass($this, $params);
+    }
+
+    /**
+     * Define o tipo
+     *
+     * @param $tipo
+     * @param bool $force
+     * @return Pessoa
+     * @throws ValidationException
+     */
+    public function setTipo($tipo, $force = false)
+    {
+        if (! in_array($tipo, [self::TIPO_PAGADOR, self::TIPO_BENEFICIARIO, self::TIPO_SACADOR])) {
+            throw new ValidationException("Tipo de pessoa inválido [$tipo]");
+        }
+
+        if ($this->getTipo() && ! $force) {
+            return $this;
+        }
+
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
+     * Retorna o bairro
+     *
+     * @return string
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
     }
 
     /**
@@ -248,7 +290,7 @@ class Pessoa implements PessoaContract
     {
         return $this->nome;
     }
-    
+
     /**
      * Define o Nome Fantasia
      *
