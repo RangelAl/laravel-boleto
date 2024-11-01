@@ -151,9 +151,9 @@ class Sisprime extends AbstractRemessa implements RemessaContract
         $this->add(2, 20, Util::formatCnab('9','0', 19));
 
         $this->add(21, 21, '0');
-        $this->add(22, 24, Util::formatCnab('9', $this->getCarteira(), 3));
-        $this->add(25, 29, Util::formatCnab('9', $this->getAgencia(), 5));
-        $this->add(30, 37, Util::formatCnab('9', $this->getConta(), 8));
+        $this->add(22, 24, Util::formatCnab('9', $boleto->getCarteira(), 3));
+        $this->add(25, 29, Util::formatCnab('9', $boleto->getAgencia(), 5));
+        $this->add(30, 37, Util::formatCnab('9', $boleto->getConta().$boleto->getContaDv(), 8));
 
         $this->add(38, 62, Util::formatCnab('A', $boleto->getNumeroControle(), 25));
         $this->add(63, 65, $this->getCodigoBanco());
